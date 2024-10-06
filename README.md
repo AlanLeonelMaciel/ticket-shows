@@ -30,6 +30,7 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Ver detalle de espectáculos (invitados también pueden).
  - Ver perfil propio.
  - Editar perfil propio.
+    <br>
  **Administrador:**
  - Alta de nuevos espectáculos.
  - Baja de espectáculos.
@@ -38,6 +39,7 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Cambiar rol de los usuarios.
  - Baja de cualquier usuario.
  - Ver lista de ventas.
+   <br>
  **Comprador:**
  - Comprar entradas de espectáculos.
  - Ver sus propias compras.
@@ -55,9 +57,12 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Página listado de usuarios.
 ---
 ## 📅 Cronograma
-**Fase 1**: Planificación y diseño (✔️ Completado)
-**Fase 2**: Desarrollo de funcionalidades principales (En curso)
-**Fase 3**: Pruebas y depuración (Próximamente)
+**Fase 1**: Planificación y diseño (✔️ Completado).
+ <br>
+**Fase 2**: Desarrollo de funcionalidades principales (En curso).
+ <br>
+**Fase 3**: Pruebas y depuración (Próximamente).
+ <br>
 **Fase 4**: Entrega final y presentación (Próximamente).
 ---
 ##  Notas adicionales
