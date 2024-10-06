@@ -1,4 +1,4 @@
-# 🎟️ TicketShows 
+# 🎟️ TicketShows   
 Bienvenido a **TicketShows**, esta aplicación web será implementada para facilitar la venta automática de entradas para diferentes  tipos de espectáculos. Estas entradas serán ofrecidas por una empresa intermediaria entre los shows  y los espectadores. Sera realizada de forma grupal (2 integrantes) para un proyecto universitario correspondiente a la asignatura "Seminario de lenguajes" orientado a php.
 ---
 ## 🎫 Definición de Roles
@@ -9,7 +9,7 @@ Bienvenido a **TicketShows**, esta aplicación web será implementada para facil
 Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
 
 - **👨‍💻 Alan Leonel Maciel**  
-- **👨‍💻 Rodrigo Obando**
+- **👨‍💻 Rodrigo Facundo Nicolas Obando**
 ---
 ## 🛠️ Tecnologías Utilizadas
 - **Lenguaje principal**: PHP
@@ -30,7 +30,9 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Ver detalle de espectáculos (invitados también pueden).
  - Ver perfil propio.
  - Editar perfil propio.
- **Administrador:**
+    <br>
+     <br>
+**Administrador:**
  - Alta de nuevos espectáculos.
  - Baja de espectáculos.
  - Modificación de espectáculos.
@@ -38,7 +40,9 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Cambiar rol de los usuarios.
  - Baja de cualquier usuario.
  - Ver lista de ventas.
- **Comprador:**
+   <br>
+    <br>
+**Comprador:**
  - Comprar entradas de espectáculos.
  - Ver sus propias compras.
 ---
@@ -55,9 +59,12 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Página listado de usuarios.
 ---
 ## 📅 Cronograma
-**Fase 1**: Planificación y diseño (✔️ Completado)
-**Fase 2**: Desarrollo de funcionalidades principales (En curso)
-**Fase 3**: Pruebas y depuración (Próximamente)
+**Fase 1**: Planificación y diseño (✔️ Completado).
+ <br>
+**Fase 2**: Desarrollo de funcionalidades principales (En curso).
+ <br>
+**Fase 3**: Pruebas y depuración (Próximamente).
+ <br>
 **Fase 4**: Entrega final y presentación (Próximamente).
 ---
 ##  Notas adicionales
@@ -67,6 +74,6 @@ Este proyecto es parte del trabajo final para la asignatura "Seminario de lengua
 Si tienes preguntas o sugerencias sobre este proyecto, no dudes en ponerte en contacto con nosotros:
 
 - **👤 Alan Leonel Maciel**: [LinkedIn](https://www.linkedin.com/in/alan-maciel-440833248/)
-- **👤 Rodrigo Obando**: [LinkedIn](https://www.linkedin.com/in/rfnobando/)
+- **👤 Rodrigo Facundo Nicolas Obando**: [LinkedIn](https://www.linkedin.com/in/rfnobando/)
   
 ¡Gracias por visitar nuestro proyecto! 
