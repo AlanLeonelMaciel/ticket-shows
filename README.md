@@ -31,7 +31,8 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Ver perfil propio.
  - Editar perfil propio.
     <br>
- **Administrador:**
+     <br>
+**Administrador:**
  - Alta de nuevos espectáculos.
  - Baja de espectáculos.
  - Modificación de espectáculos.
@@ -40,7 +41,8 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
  - Baja de cualquier usuario.
  - Ver lista de ventas.
    <br>
- **Comprador:**
+    <br>
+**Comprador:**
  - Comprar entradas de espectáculos.
  - Ver sus propias compras.
 ---
