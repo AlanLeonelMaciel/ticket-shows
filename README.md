@@ -9,7 +9,7 @@ Bienvenido a **TicketShows**, esta aplicación web será implementada para facil
 Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
 
 - **👨‍💻 Alan Leonel Maciel**  
-- **👨‍💻 Rodrigo Obando**
+- **👨‍💻 Rodrigo Facundo Nicolas Obando**
 ---
 ## 🛠️ Tecnologías Utilizadas
 - **Lenguaje principal**: PHP
@@ -67,6 +67,6 @@ Este proyecto es parte del trabajo final para la asignatura "Seminario de lengua
 Si tienes preguntas o sugerencias sobre este proyecto, no dudes en ponerte en contacto con nosotros:
 
 - **👤 Alan Leonel Maciel**: [LinkedIn](https://www.linkedin.com/in/alan-maciel-440833248/)
-- **👤 Rodrigo Obando**: [LinkedIn](https://www.linkedin.com/in/rfnobando/)
+- **👤 Rodrigo Facundo Nicolas Obando**: [LinkedIn](https://www.linkedin.com/in/rfnobando/)
   
 ¡Gracias por visitar nuestro proyecto! 
