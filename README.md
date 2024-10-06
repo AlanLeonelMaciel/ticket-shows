@@ -1,4 +1,4 @@
-# 🎟️ TicketShows
+# 🎟️ TicketShows 
 Bienvenido a **TicketShows**, esta aplicación web será implementada para facilitar la venta automática de entradas para diferentes  tipos de espectáculos. Estas entradas serán ofrecidas por una empresa intermediaria entre los shows  y los espectadores. Sera realizada de forma grupal (2 integrantes) para un proyecto universitario correspondiente a la asignatura "Seminario de lenguajes" orientado a php.
 ---
 ## 🎫 Definición de Roles
