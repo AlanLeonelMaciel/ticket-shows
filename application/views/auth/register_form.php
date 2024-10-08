@@ -1,4 +1,5 @@
 <?php $errors = $this->session->flashdata('errors'); ?>
+<?php $success = $this->session->flashdata('success'); ?>
 <h1>Registro</h1>
 <form action="<?php echo base_url('auth/register'); ?>" method="POST">
     <label for="email">Email</label>
@@ -28,3 +29,7 @@
     <br>
     <button type="submit">Registrarse</button>
 </form>
+<?php if(isset($success)): ?>
+    <br>
+    <small style="color: green;"><?php echo $success; ?></small>
+<?php endif; ?>
