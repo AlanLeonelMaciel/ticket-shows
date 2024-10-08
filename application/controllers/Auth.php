@@ -29,8 +29,8 @@ class Auth extends CI_Controller {
         }
 
         $this->user_model->add_new_user([
-            'email' => strip_tags($this->input->post('email')),
-            'password' => strip_tags(password_hash($this->input->post('password'), PASSWORD_BCRYPT)),
+            'email' => $this->input->post('email'),
+            'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
             'role_id' => $this->role_model->get_role_id_by_name('customer')
         ]);
 
