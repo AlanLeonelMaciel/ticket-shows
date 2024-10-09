@@ -37,4 +37,52 @@ class Auth extends CI_Controller {
         $this->session->set_flashdata('success', 'El usuario fue registrado con éxito.');
         redirect('auth/register_form');
     }
+
+    //funcion para cargar el formulario
+    public function login_form()
+    {
+        $main_data = [
+            'inner_view_path' => 'auth/login_form'
+        ];
+        // se ccarga la vista con el formulario de login
+        $this->load->view('layouts/main', $main_data);
+    }
+
+    // funcion para el manejo del formulario tipo post
+    public function login()
+    {
+        // Reglas de validación del formulario de login
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('password', 'password', 'required');
+
+        // Validación del formulario
+        if ($this->form_validation->run() == false) {
+            // Si la validacion falla, guarda los errores en la sesión y redirige al form.
+            $this->session->set_flashdata('errors', $this->form_validation->error_array());
+            redirect('auth/login_form');
+        } else {
+            // Validar credencials
+            $data['email'] = $this->input->post('email');
+            $data['password'] = $this->input->post('password');
+
+            // se validan credenciales en el modelo. 
+            $user = $this->user_model->check_login($data);
+
+            if ($user) {
+                // Credenciales correctas: iniciar sesión
+                $session_data = [
+                    'user_id' => $user->id,
+                    'email' => $user->email,
+                    'logged_in' => true
+                ];
+                $this->session->set_userdata($session_data);
+                redirect('welcome');  // Redirige a lo que queramos
+            } else {
+                // Credenciales incorrectas
+                $this->session->set_flashdata('errors', ['login_error' => 'Incorrect username or password. Please try again.']);
+                redirect('auth/login_form');
+            }
+        }
+    }
+
 }
