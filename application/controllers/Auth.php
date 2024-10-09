@@ -1,6 +1,7 @@
 <?php
 
-class Auth extends CI_Controller {
+class Auth extends CI_Controller
+{
     public function __construct()
     {
         parent::__construct();
@@ -23,7 +24,7 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[20]');
         $this->form_validation->set_rules('confirm-password', 'confirm-password', 'required|min_length[6]|max_length[20]|matches[password]');
 
-        if($this->form_validation->run() == false) {
+        if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('errors', $this->form_validation->error_array());
             redirect('auth/register_form');
         }
@@ -65,10 +66,10 @@ class Auth extends CI_Controller {
             $data['email'] = $this->input->post('email');
             $data['password'] = $this->input->post('password');
 
-            // se validan credenciales en el modelo. 
-            $user = $this->user_model->check_login($data);
+            // se obtiene el user por mail
+            $user = $this->user_model->get_user_by_email($data['email']);
 
-            if ($user) {
+            if ($user && password_verify($data['password'], $user->password)) {
                 // Credenciales correctas: iniciar sesión
                 $session_data = [
                     'user_id' => $user->id,
@@ -85,4 +86,9 @@ class Auth extends CI_Controller {
         }
     }
 
+    function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('auth/login_form');
+    }
 }
