@@ -6,6 +6,6 @@
     <title>Sistema</title>
 </head>
 <body>
-    <?php $this->load->view($inner_view_path); ?>
+    <?php $this->load->view($inner_view_path); ?> 
 </body>
 </html>
