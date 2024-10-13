@@ -7,6 +7,7 @@ class Auth extends CI_Controller {
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('role_model');
+        $this->load->model('profile_model');
     }
 
     public function register_form()
@@ -29,11 +30,15 @@ class Auth extends CI_Controller {
             redirect('auth/register_form');
         }
 
-        $this->user_model->add_new_user([
+        $new_user_id = $this->user_model->add_new_user([
             'email' => $this->input->post('email'),
             'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
             'role_id' => $this->role_model->get_role_id_by_name('customer')
         ]);
+
+        if($new_user_id) {
+            $this->profile_model->add_new_profile(['user_id' => $new_user_id]);
+        }
 
         $this->session->set_flashdata('success', 'El usuario fue registrado con éxito.');
         redirect('auth/register_form');
