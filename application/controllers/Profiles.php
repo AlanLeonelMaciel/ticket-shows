@@ -2,27 +2,21 @@
 
 class Profiles extends CI_Controller {
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
         $this->load->model('profile_model');
         $this->load->model('zone_model');
         $this->load->model('address_model');
     }
 
-    public function edit()
-    {
-        // Obtener el user_id del usuario autenticado
-        $user_id = $this->session->userdata('user_id');
-        if (empty($user_id)) {
-           // Redirige al inicio de sesión o muestra un error
-         redirect('auth/login_form');
+    public function edit($id)
+    {   
+        if($this->session->userdata('profile_id') != $id){
+            show_404();
         }
-     // Consultar los datos del perfil
-        $profile = $this->profile_model->get_profile_by_user_id($user_id);
-        if (empty($profile)) {
-           // Manejar el caso en que no se encuentre el perfil
-           show_404();
-        }
+        // Consultar los datos del perfil
+        $profile = $this->profile_model->get_profile_by_id($id);
         
         $data = [
             'profile' => $profile,
@@ -33,15 +27,10 @@ class Profiles extends CI_Controller {
         $this->load->view('layouts/main', $data);
     }
 
-    public function update()
+    public function update($id)
     {
-        // Obtener el user_id y el profile_id del usuario autenticado
-        $user_id = $this->session->userdata('user_id');
-        $profile_id = $this->session->userdata('profile_id');
-        
-        if(empty($user_id) || empty($profile_id)) {
-            // Redirige al inicio de sesión o muestra un error
-            redirect('auth/login_form');
+        if($this->session->userdata('profile_id') != $id){
+            show_404();
         }
 
         $this->form_validation->set_rules(
@@ -93,18 +82,17 @@ class Profiles extends CI_Controller {
         if($this->form_validation->run() === FALSE) {
             $this->session->set_flashdata('input_data', $input_data);
             $this->session->set_flashdata('errors', $this->form_validation->error_array());
-            redirect('profiles/edit');
+            redirect('profiles/edit/'.$id);
         }else{
             // Obtener el id de la dirección si no existe crearla
-            $address_id = $this->address_model->get_address_id($input_data['street'], $input_data['number'], $input_data['zone_id']) 
+            $input_data['address_id']=$this->address_model->get_address_id($input_data['street'], $input_data['number'], $input_data['zone_id']) 
                           ?: $this->address_model->create_address($input_data['street'], $input_data['number'], $input_data['zone_id']);
             // Eliminar los campos de dirección del array $input_data
             unset($input_data['street'], $input_data['number'], $input_data['zone_id']);
-            // Combinar los arrays $input_data y $profile_data en un solo array.
-            $profile_data = array_merge($input_data, ['address_id' => $address_id]);
-            // Actualizar el perfil
-            $this->profile_model->update_profile($profile_id, $profile_data);
-            redirect('profiles/edit'); // Redirigir a la misma página de edición después de guardar los cambios
+            // Actualizar el 
+            //hacer un var dump de input data y que se pause el flujo
+            $this->profile_model->update_profile($id, $input_data);
+            redirect('profiles/edit/'.$id); // Redirigir a la misma página de edición después de guardar los cambios
         }
     }
 }
