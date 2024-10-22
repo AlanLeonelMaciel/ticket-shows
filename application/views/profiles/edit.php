@@ -11,7 +11,7 @@
 $input_data = $this->session->flashdata('input_data');
 ?>
 
-<?php echo form_open('profile/update'); ?>
+<?php echo form_open('profiles/update'); ?>
 <label for="name">Name</label>
 <input type="text" name="name" value="<?php echo isset($input_data['name']) ? $input_data['name'] : (isset($profile->name) ? $profile->name : ''); ?>"><br>
 

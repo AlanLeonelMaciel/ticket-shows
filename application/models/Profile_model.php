@@ -18,6 +18,17 @@ class Profile_model extends CI_Model{
         return $this->db->get('profiles')->result();
     }
     
+    public function get_all_profiles_with_user_details() {
+        $this->db->select('profiles.*, users.email, roles.name AS role_name, addresses.street, addresses.number, addresses.zone_id, zones.name AS zone_name');
+        $this->db->from('profiles');
+        $this->db->join('users', 'profiles.user_id = users.id'); // Unir con la tabla de usuarios
+        $this->db->join('roles', 'users.role_id = roles.id'); // Unir con la tabla de roles
+        $this->db->join('addresses', 'profiles.address_id = addresses.id', 'left'); // Unir con la tabla de direcciones, si existe
+        $this->db->join('zones', 'addresses.zone_id = zones.id', 'left'); // Unir con la tabla de zonas, si existe
+        $query = $this->db->get();
+        return $query->result(); // Devuelve todos los perfiles con información del usuario, dirección, rol y zona
+    }
+
     public function get_profile_by_id($profile_id)
     {
         return $this->db->get_where('profiles', ['id' => $profile_id])->row();
