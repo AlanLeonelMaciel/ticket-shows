@@ -34,6 +34,10 @@ class Events extends CI_Controller {
 
     public function create()
     {
+        if($this->session->userdata('role') != 'admin') {
+            show_error('No estás autorizado.');
+        }
+
         $main_data = [
             'inner_view_path' => 'events/create',
             'locations' => $this->location_model->get_all_locations()

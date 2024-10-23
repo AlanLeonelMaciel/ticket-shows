@@ -91,7 +91,7 @@ class Auth extends CI_Controller {
                 ];
 
                 $this->session->set_userdata($session_data);
-                redirect('welcome');  // Redirige a lo que queramos
+                redirect('home');  // Redirige a lo que queramos
             } else {
                 // Credenciales incorrectas
                 $this->session->set_flashdata('input_data', $input_data);
