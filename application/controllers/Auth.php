@@ -23,10 +23,15 @@ class Auth extends CI_Controller {
     {
         $this->form_validation->set_rules('email', 'email', 'required|max_length[50]|valid_email|is_unique[users.email]');
         $this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[20]');
-        $this->form_validation->set_rules('confirm-password', 'confirm-password', 'required|min_length[6]|max_length[20]|matches[password]');
+        $this->form_validation->set_rules('confirm-password', 'password', 'required|min_length[6]|max_length[20]|matches[password]');
+
+        $input_data = [
+            'email' => $this->input->post('email')
+        ];
 
         if($this->form_validation->run() == false) {
             $this->session->set_flashdata('errors', $this->form_validation->error_array());
+            $this->session->set_flashdata('input_data', $input_data);
             redirect('auth/register_form');
         }
 
