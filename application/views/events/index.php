@@ -1,29 +1,36 @@
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h4 class="custom-h4 text-light-emphasis"><span class="badge bg-dark p-2">Eventos</span></h4>
-            <section class="events-grid custom-section fs-6 p-1">
-                <?php if(isset($events)): ?>
-                    <?php foreach($events as $event): ?>
-                        <div class="card mb-3 p-1 shadow-sm border-light">
-                            <h3 class="card-header text-body"><?php echo $event->title; ?></h3>
-                            <img class="card-img p-2" src="<?php echo base_url($event->picture); ?>" alt="Event image">
-                            <div class="card-body fixed-height">
-                                <p class="card-text text-body-secondary"><?php echo $event->description; ?></p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item text-body-tertiary"><?php echo 'Ubicación (ID): ' . $event->location_id; ?></li>
-                            </ul>
-                            <div class="card-body">
-                                <a class="btn btn-primary w-100 mt-3" href="<?php echo base_url('events/show/') . $event->id; ?>">Ver detalles</a>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <?php echo 'Publicado el: ' . $event->date; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </section>
+<div class="container py-1">
+    <div class="row mb-5">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <h2 class="fw-bold">Eventos</h2>
         </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
+        <?php if (isset($events)): ?>
+            <?php foreach ($events as $event): ?>
+                <div class="col mb-4">
+                    <div>
+                        <a href="#">
+                            <img class="rounded img-fluid shadow w-100 fit-cover" src="<?php echo base_url($event->picture); ?>" style="height: 250px;">
+                        </a>
+                        <div class="py-4">
+                            <h4 class="fw-bold"><?php echo $event->title; ?></h4>
+                            <p class="text-muted"><?php echo $event->description; ?></p>
+                            <ul class="list-inline">
+                                <li>
+                                    <span class="badge bg-secondary">Lugar: </span>
+                                    <span class="text-body-secondary fw-bold"><?php echo $event->location_name; ?></span>
+
+                                </li>
+                                <li>
+                                    <span class="badge bg-secondary">Dirección: </span>
+                                    <span class="text-body-secondary fw-bold"><?php echo $event->street . ' ' . $event->number . ', ' . $event->zone_name; ?></span>
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary" href="<?php echo base_url('events/show/') . $event->id; ?>">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </div>

@@ -21,4 +21,9 @@ class Location_model extends CI_Model {
 
         return $row ? $row->id : null;
     }
+
+    public function get_location_by_id($location_id)
+    {
+        return $this->db->get_where('locations', ['id' => $location_id])->row();
+    }
 }

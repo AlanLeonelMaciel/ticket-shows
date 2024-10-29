@@ -17,6 +17,11 @@ class Address_model extends CI_Model {
     public function get_address_by_id($address_id) {
         return $this->db->get_where('addresses', ['id' => $address_id])->row();
     }
+
+    public function get_all_addresses() {
+        return $this->db->get('addresses')->result();
+    }
+    
     public function create_address($street, $number, $zone_id) {
         $data = [
             'street' => $street,
