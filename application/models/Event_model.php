@@ -37,4 +37,26 @@ class Event_model extends CI_Model {
         $row = $this->db->select('picture')->where('id', $id)->get('events')->row();
         return $row ? $row->picture : null;
     }
+
+    public function get_count_tickets_sold($event_id) 
+    {
+        $this->db->where('event_id', $event_id);
+        $this->db->from('tickets');
+        return (int) $this->db->count_all_results();
+    }
+    
+    public function get_event_capacity($event_id) 
+    {
+        $this->db->select('locations.capacity');
+        $this->db->from('events');
+        $this->db->join('locations', 'events.location_id = locations.id');
+        $this->db->where('events.id', $event_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            return (int) $query->row()->capacity; // Convertir a entero antes de devolver
+        } else {
+            return null; // O lanza una excepción si prefieres manejarlo de esa manera
+        }
+    }
 }

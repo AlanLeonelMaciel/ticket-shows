@@ -8,7 +8,8 @@ class Events extends CI_Controller
 		$this->load->model('event_model');
 		$this->load->model('location_model');
 		$this->load->model('address_model');
-		$this->load->model('zone_model'); // Asegúrate de tener este modelo
+		$this->load->model('zone_model');
+		$this->load->model('sale_model'); 
 	}
 
 	public function index()
@@ -36,19 +37,43 @@ class Events extends CI_Controller
 		$this->load->view('layouts/main', $main_data);
 	}
 
-	public function show($id)
-	{
-		if ($this->event_model->get_event_by_id($id) == null) {
-			show_404();
-		}
+	public function show($id) {
+    // Obtener el evento por ID
+    $event = $this->event_model->get_event_by_id($id);
 
-		$main_data = [
-			'inner_view_path' => 'events/show',
-			'event' => $this->event_model->get_event_by_id($id)
-		];
+    // Verificar si el evento existe
+    if ($event == null) {
+        show_404();
+    }
 
-		$this->load->view('layouts/main', $main_data);
-	}
+    // Obtener la información adicional del evento
+    $location = $this->location_model->get_location_by_id($event->location_id);
+    $address = $this->address_model->get_address_by_id($location->address_id);
+    $zone = $this->zone_model->get_zone_by_id($address->zone_id); // Obtener la zona
+
+    // Calcular el cupo disponible
+    $tickets_sold = $this->event_model->get_count_tickets_sold($event->id);
+    $capacity = $this->event_model->get_event_capacity($event->id);
+	var_dump($capacity);
+    if ($capacity === null) {
+        show_error('No se pudo obtener la capacidad del evento.');
+    }
+
+    $cupo = $capacity - $tickets_sold;
+
+    $event->location_name = $location->name;
+    $event->street = $address->street;
+    $event->number = $address->number;
+    $event->zone_name = $zone->name; // Agregar el nombre de la zona
+    $event->cupo = $cupo; // Agregar el cupo disponible
+
+    $main_data = [
+        'inner_view_path' => 'events/show',
+        'event' => $event
+    ];
+
+    $this->load->view('layouts/main', $main_data);
+}
 
 	public function create()
 	{
@@ -186,4 +211,55 @@ class Events extends CI_Controller
 		redirect('events');
 	}
 
+	public function buy($event_id) {
+		// Aquí deberías obtener el ID del usuario de la sesión
+		$user_id = $this->session->userdata('user_id');
+		// Obtener la cantidad y el precio total del formulario
+		$quantity = $this->input->post('quantity');
+		$price = $this->input->post('price');
+		$total = $this->input->post('total');
+	
+		// Obtener el evento por ID para verificar el precio
+		$event = $this->event_model->get_event_by_id($event_id);
+	
+		// Verificar si el evento existe
+		if ($event == null) {
+			show_404();
+		}
+	
+		// Verificar que la cantidad no exceda la capacidad del evento
+		$tickets_sold = $this->event_model->get_count_tickets_sold($event->id);
+		$cupo = ($this->event_model->get_event_capacity($event_id)) - $tickets_sold;
+		if ($quantity > $cupo) {
+			show_error('La cantidad solicitada excede la capacidad disponible.');
+		}
+	
+		// Verificar que el precio total sea correcto
+		$expected_total = $quantity * $event->price;
+		if ($total != $expected_total) {
+			show_error('El precio total no es correcto.');
+		}
+		
+		// Crear la venta
+		$sale_data = [
+			'amount' => $total,
+			'date' => date('Y-m-d'),
+			'user_id' => $user_id
+		];
+	
+		$this->sale_model->create_sale($sale_data);
+		$sale_id = $this->db->insert_id(); // Obtener el ID de la venta recién creada
+	
+		// Crear los tickets
+		for ($i = 0; $i < $quantity; $i++) {
+			$ticket_data = [
+				'event_id' => $event_id,
+				'sale_id' => $sale_id
+			];
+			$this->sale_model->create_ticket($ticket_data);
+		}
+	
+		// Redirigir a una página de confirmación o de detalles de la venta
+		redirect('sales/confirmation');
+	}
 }
