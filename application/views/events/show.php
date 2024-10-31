@@ -1,6 +1,6 @@
 <div class="row mb-5">
     <div class="col-md-8 col-xl-6 text-center mx-auto">
-        <h2 class="fw-bold">Detalles del evento</h2>
+        <h1 class="fw-bold">Detalles del evento</h1>
     </div>
 </div>
 <div class="container py-5 bg-black-transparent">
@@ -54,15 +54,19 @@
                         </div>
                     </div>
                     <form action="<?php echo base_url('events/buy/' . $event->id); ?>" method="post" onsubmit="calculateTotal(event)">
-                        <div class="form-group">
-                            <label for="quantity">Cantidad:</label>
-                            <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<?php echo $event->cupo; ?>" onchange="updateTotal()">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="form-group">
+                                    <label for="quantity">Cantidad:</label>
+                                    <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<?php echo $event->cupo; ?>" onchange="updateTotal()">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="total">Total:</label>
+                                    <input type="text" id="total" name="total" class="form-control" value="<?php echo '$' . number_format($event->price, 2); ?>" readonly>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group mt-3">
-                            <label for="total">Total:</label>
-                            <input type="text" id="total" name="total" class="form-control" value="<?php echo '$' . number_format($event->price, 2); ?>" readonly>
-                        </div>
-                        <input type="hidden" name="price" value="<?php echo $event->price; ?>">
+                        <input type="hidden" id="price" name="price" value="<?php echo $event->price; ?>">
                         <div class="reflow-add-to-cart ref-product-controls mt-3">
                             <button type="submit" class="ref-button btn btn-primary">Comprar</button>
                         </div>
@@ -73,18 +77,4 @@
     </div>
 </div>
 
-<script>
-function updateTotal() {
-    var quantity = document.getElementById('quantity').value;
-    var price = <?php echo $event->price; ?>;
-    var total = quantity * price;
-    document.getElementById('total').value = '$' + total.toFixed(2);
-}
-
-function calculateTotal(event) {
-    var quantity = document.getElementById('quantity').value;
-    var price = <?php echo $event->price; ?>;
-    var total = quantity * price;
-    document.getElementById('total').value = total.toFixed(2);
-}
-</script>
+<script src="<?php echo base_url('assets/js/events-calculations.js'); ?>"></script>

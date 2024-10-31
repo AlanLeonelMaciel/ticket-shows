@@ -10,6 +10,7 @@ class Events extends CI_Controller
 		$this->load->model('address_model');
 		$this->load->model('zone_model');
 		$this->load->model('sale_model'); 
+		$this->load->model('ticket_model');
 	}
 
 	public function index()
@@ -54,7 +55,7 @@ class Events extends CI_Controller
     // Calcular el cupo disponible
     $tickets_sold = $this->event_model->get_count_tickets_sold($event->id);
     $capacity = $this->event_model->get_event_capacity($event->id);
-	var_dump($capacity);
+	
     if ($capacity === null) {
         show_error('No se pudo obtener la capacidad del evento.');
     }
@@ -212,7 +213,10 @@ class Events extends CI_Controller
 	}
 
 	public function buy($event_id) {
-		// Aquí deberías obtener el ID del usuario de la sesión
+		// Verificar si el usuario está autenticado
+		if (!$this->session->userdata('logged_in')) {
+			redirect('auth/login_form');
+		}
 		$user_id = $this->session->userdata('user_id');
 		// Obtener la cantidad y el precio total del formulario
 		$quantity = $this->input->post('quantity');
@@ -256,7 +260,7 @@ class Events extends CI_Controller
 				'event_id' => $event_id,
 				'sale_id' => $sale_id
 			];
-			$this->sale_model->create_ticket($ticket_data);
+			$this->ticket_model->create_ticket($ticket_data);
 		}
 	
 		// Redirigir a una página de confirmación o de detalles de la venta

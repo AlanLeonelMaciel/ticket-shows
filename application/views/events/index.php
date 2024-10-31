@@ -1,7 +1,7 @@
 <div class="container py-1">
     <div class="row mb-5">
         <div class="col-md-8 col-xl-6 text-center mx-auto">
-            <h2 class="fw-bold">Eventos</h2>
+            <h1 class="fw-bold">Eventos</h1>
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
