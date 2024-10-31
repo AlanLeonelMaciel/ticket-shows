@@ -12,8 +12,7 @@ class Home extends CI_Controller {
 		$main_data = [
 			'inner_view_path' => 'home'
 		];
-        
-        // Cargar la vista y pasarle los datos
+
 		$this->load->view('layouts/main', $main_data);
 	}
 }

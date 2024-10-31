@@ -91,7 +91,7 @@ class Auth extends CI_Controller {
                     'user_id' => $user->id,
                     'email' => $user->email,
                     'role' => $this->role_model->get_role_name_by_id($user->role_id),
-                    'profile_id' => $this->profile_model->get_profile_by_user_id($user->id)->id,
+                    'profile_id' => $this->profile_model->get_profile_id_by_user_id($user->id),
                     'logged_in' => true
                 ];
 

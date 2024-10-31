@@ -34,9 +34,16 @@ class Profile_model extends CI_Model{
         return $this->db->get_where('profiles', ['id' => $profile_id])->row();
     }
 
-    public function get_profile_by_user_id($user_id)
+    public function get_profile_id_by_user_id($user_id)
     {
-        return $this->db->get_where('profiles', ['user_id' => $user_id])->row();
+        $row = $this->db->get_where('profiles', ['user_id' => $user_id])->row();
+        return $row ? $row->id : null;
+    }
+
+    public function get_profile_picture_by_id($profile_id)
+    {
+        $row = $this->db->select('picture')->from('profiles')->where('id', $profile_id)->get()->row();
+        return $row ? $row->picture : null;
     }
     
     public function update_profile($profile_id, $profile_data)

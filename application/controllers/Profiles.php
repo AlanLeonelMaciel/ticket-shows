@@ -10,12 +10,28 @@ class Profiles extends CI_Controller {
         $this->load->model('address_model');
     }
 
+    public function show($id)
+    {
+        $profile = $this->profile_model->get_profile_by_id($id);
+        $address = $this->address_model->get_address_by_id($profile ? $profile->address_id : null);
+        $zone = $this->zone_model->get_zone_by_id($address ? $address->zone_id : null);
+
+        $main_data = [
+            'inner_view_path' => 'profiles/show',
+            'profile' => $profile,
+            'address' => $address,
+            'zone' => $zone
+        ];
+
+        $this->load->view('layouts/main', $main_data);
+    }
+
     public function edit($id)
     {   
         if($this->session->userdata('profile_id') != $id){
             show_404();
         }
-        // Consultar los datos del perfil
+
         $profile = $this->profile_model->get_profile_by_id($id);
         
         $data = [
@@ -41,22 +57,30 @@ class Profiles extends CI_Controller {
         $this->form_validation->set_rules('number','Number','required|numeric');
         $this->form_validation->set_rules('zone_id','Zone','required');
 
-        $input_data = [
-            'name' => $this->input->post('name'),
-            'surname' => $this->input->post('surname'),
-            'phone' => $this->input->post('phone'),
-            'dni' => $this->input->post('dni'),
-            'picture' => $this->input->post('picture'),
-            'street' => $this->input->post('street'),
-            'number' => $this->input->post('number'),
-            'zone_id' => $this->input->post('zone_id')
-        ];
+        $input_data = $this->input->post();
 
-        if($this->form_validation->run() === FALSE) {
+        if($this->form_validation->run() == false) {
             $this->session->set_flashdata('input_data', $input_data);
             $this->session->set_flashdata('errors', $this->form_validation->error_array());
             redirect('profiles/edit/'.$id);
         }
+
+        $profile_data = [
+            'name' => $input_data['name'],
+            'surname' => $input_data['surname'],
+            'phone' => $input_data['phone'],
+            'dni' => $input_data['dni'],
+            'address_id' => $this->address_model->get_address_id($input_data['street'], $input_data['number'], $input_data['zone_id']) ?: $this->address_model->create_address($input_data['street'], $input_data['number'], $input_data['zone_id'])
+        ];
+        
+        $this->profile_model->update_profile($id, $profile_data);
+        $this->session->set_flashdata('success', 'El perfil ha sido actualizado con éxito.');
+        redirect('profiles/show/' . $id);
+    }
+
+    public function update_picture()
+    {
+        $profile_id = $this->session->userdata('profile_id');
 
         $upload_config = [
             'upload_path' => './assets/img/profiles/',
@@ -68,24 +92,19 @@ class Profiles extends CI_Controller {
         $this->upload->initialize($upload_config);
 
         if($this->upload->do_upload('picture')) {
-            // Obtener los datos del archivo subido
             $upload_data = $this->upload->data();
-            // Obtener el id de la dirección si no existe crearla
-            $input_data['address_id']=$this->address_model->get_address_id($input_data['street'], $input_data['number'], $input_data['zone_id']) 
-                          ?: $this->address_model->create_address($input_data['street'], $input_data['number'], $input_data['zone_id']);
-            //obtener la ruta de la imagen
-            $input_data['picture'] = 'assets/img/profiles/'.$upload_data['file_name'];
-            //borrar la imagen anterior usando el perfil
-            unlink($this->profile_model->get_profile_by_id($id)->picture);
-            // Eliminar los campos de dirección del array $input_data
-            unset($input_data['street'], $input_data['number'], $input_data['zone_id']);
-            // Actualizar el perfil
-            $this->profile_model->update_profile($id, $input_data);
-            $this->session->set_flashdata('success', 'El perfil ha sido actualizado con éxito.');
-        }else{
-            $this->session->set_flashdata('input_data', $this->input->post());
+            $current_picture = $this->profile_model->get_profile_picture_by_id($profile_id);
+    
+            if($current_picture != null) {
+                unlink($current_picture);
+            }
+    
+            $profile_data['picture'] = 'assets/img/profiles/' . $upload_data['file_name'];
+            $this->profile_model->update_profile($profile_id, $profile_data);
+        } else {
             $this->session->set_flashdata('errors', ['upload_errors' => $this->upload->display_errors()]);
         }
-        redirect('profiles/edit/'.$id); // Redirigir a la vista de edición.
+
+        redirect('profiles/show/' . $profile_id);
     }
 }

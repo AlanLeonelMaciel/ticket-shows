@@ -27,7 +27,7 @@
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuario</a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <?php if($this->session->userdata('logged_in')): ?>
-                        <a class="dropdown-item" href="#">Mi perfil</a>
+                        <a class="dropdown-item" href="<?php echo base_url('profiles/show/') . $this->session->userdata('profile_id'); ?>">Mi perfil</a>
                         <a class="dropdown-item" href="<?php echo base_url('auth/logout'); ?>">Logout</a>
                     <?php else: ?>
                         <a class="dropdown-item" href="<?php echo base_url('auth/register_form'); ?>">Registro</a>
