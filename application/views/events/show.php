@@ -27,7 +27,7 @@
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Fecha: </span>
-                                        <span class="text-body"><?php echo $event->date; ?></span>
+                                        <span class="text-body"><?php echo date_format(new DateTime($event->date), 'd F Y'); ?></span>
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Cupo: </span>
@@ -43,7 +43,7 @@
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Hora: </span>
-                                        <span class="text-body"><?php echo $event->time; ?></span>
+                                        <span class="text-body"><?php echo date('h:i A', strtotime($event->time)); ?></span>
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Precio: </span>

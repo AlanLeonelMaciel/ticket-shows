@@ -6,6 +6,7 @@
     <title>Sistema</title>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/styles.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/stats-icons.css'); ?>">
 </head>
 <body class="d-flex flex-column min-vh-100 m-0 p-0">
     <?php $this->load->view('components/navbar'); ?>

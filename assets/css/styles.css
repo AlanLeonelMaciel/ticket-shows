@@ -65,3 +65,11 @@
 .custom-mh-150px {
     max-height: 150px;
 }
+
+.table-custom th {
+    background-color: #495057;
+}
+
+.table-custom td, .table-custom th {
+    border: 1px solid #302e2e;
+}
