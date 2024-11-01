@@ -10,7 +10,7 @@
     <form id="upload-form" method="POST" action="<?php echo base_url('profiles/update_picture'); ?>" enctype="multipart/form-data">
         <input type="file" id="profile-image-input" name="picture">
     </form>
-    <?php if (isset($errors['upload_errors'])): ?>
+    <?php if(isset($errors['upload_errors'])): ?>
         <div class="alert alert-danger custom-mw-500px mx-auto" role="alert">
             <small><?php echo $errors['upload_errors']; ?></small>
         </div>
