@@ -97,6 +97,7 @@ class Events extends CI_Controller
 		$this->form_validation->set_rules('description', 'description', 'required');
 		$this->form_validation->set_rules('date', 'date', 'required');
 		$this->form_validation->set_rules('time', 'time', 'required');
+		$this->form_validation->set_rules('price', 'price', 'required');
 
 		if ($this->form_validation->run() == false) {
 			$this->session->set_flashdata('errors', $this->form_validation->error_array());
@@ -121,6 +122,7 @@ class Events extends CI_Controller
 				'description' => $this->input->post('description'),
 				'date' => $this->input->post('date'),
 				'time' => $this->input->post('time'),
+				'price' => $this->input->post('price'),
 				'picture' => 'assets/img/events/' . $upload_data['file_name'],
 				'location_id' => $this->location_model->get_location_id_by_name($this->input->post('location-name'))
 			];
@@ -137,13 +139,15 @@ class Events extends CI_Controller
 
 	public function edit($id)
 	{
-		if ($this->event_model->get_event_by_id($id) == null) {
+		$event = $this->event_model->get_event_by_id($id);
+
+		if($event == null) {
 			show_404();
 		}
 
 		$main_data = [
 			'inner_view_path' => 'events/edit',
-			'event' => $this->event_model->get_event_by_id($id),
+			'event' => $event,
 			'locations' => $this->location_model->get_all_locations()
 		];
 

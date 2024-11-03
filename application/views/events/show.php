@@ -27,7 +27,7 @@
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Fecha: </span>
-                                        <span class="text-body"><?php echo date_format(new DateTime($event->date), 'd F Y'); ?></span>
+                                        <span class="text-body"><?php echo date("d/m/Y", strtotime($event->date)); ?></span>
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Cupo: </span>
@@ -43,7 +43,7 @@
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Hora: </span>
-                                        <span class="text-body"><?php echo date('h:i A', strtotime($event->time)); ?></span>
+                                        <span class="text-body"><?php echo date('H:i', strtotime($event->time)); ?></span>
                                     </li>
                                     <li class="">
                                         <span class="badge rounded-pill bg-secondary">Precio: </span>
@@ -53,6 +53,14 @@
                             </div>
                         </div>
                     </div>
+                    <?php if($this->session->userdata('role') == 'admin'): ?>
+                        <div class="d-flex flex-row">
+                            <a href="<?php echo base_url('events/edit/') . $event->id; ?>" class="btn btn-warning">Editar</a>
+                            <form action="<?php echo base_url('events/delete/') . $event->id; ?>" method="POST" class="ms-2">
+                                <button type="submit" class="btn btn-danger">Borrar</button>
+                            </form>
+                        </div>
+                    <?php else: ?>
                     <form action="<?php echo base_url('events/buy/' . $event->id); ?>" method="post" onsubmit="calculateTotal(event)">
                         <div class="row">
                             <div class="col-auto">
@@ -71,6 +79,7 @@
                             <button type="submit" class="ref-button btn btn-primary">Comprar</button>
                         </div>
                     </form>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
