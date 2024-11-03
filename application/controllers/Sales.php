@@ -11,9 +11,10 @@ class Sales extends CI_Controller {
 
     public function index() 
     {
-        if ($this->session->userdata('role') != 'admin') {
-            redirect('auth/login_form');
+        if($this->session->userdata('role') != 'admin') {
+            show_error('No estás autorizado.');
         }
+
         $main_data = [
             'inner_view_path' => 'sales/index',
             'sales' => $this->sale_model->get_all_sales()
@@ -24,6 +25,10 @@ class Sales extends CI_Controller {
 
     public function view_tickets($sale_id) 
     {
+        if($this->session->userdata('role') != 'admin') {
+            show_error('No estás autorizado.');
+        }
+
         $tickets = $this->ticket_model->get_tickets_by_sale_id($sale_id);
 
         if (empty($tickets)) {

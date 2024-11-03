@@ -20,8 +20,8 @@
                             <tr>
                                 <td><?php echo $ticket->id; ?></td>
                                 <td><?php echo $ticket->event_title; ?></td>
-                                <td><?php echo date_format(new DateTime($ticket->event_date), 'd F Y'); ?></td>
-                                <td><?php echo date('h:i A', strtotime($ticket->event_time)); ?></td>
+                                <td><?php echo date("d/m/Y", strtotime($ticket->event_date)); ?></td>
+                                <td><?php echo date('H:i', strtotime($ticket->event_time)); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

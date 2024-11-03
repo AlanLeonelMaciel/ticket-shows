@@ -85,5 +85,5 @@
         </div>
     </div>
 </div>
-
 <script src="<?php echo base_url('assets/js/events-calculations.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/delete-buttons.js'); ?>"></script>

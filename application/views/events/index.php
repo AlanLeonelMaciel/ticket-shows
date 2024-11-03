@@ -1,7 +1,13 @@
+<?php $success = $this->session->flashdata('success'); ?>
 <div class="container py-1">
     <div class="row mb-5">
         <div class="col-md-8 col-xl-6 text-center mx-auto">
             <h1 class="text-center mb-4">Eventos</h1>
+            <?php if(isset($success)): ?>
+                <div class="alert alert-success mx-auto" role="alert">
+                    <small class="fw-bold"><?php echo $success; ?></small>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
@@ -41,3 +47,4 @@
         <?php endif; ?>
     </div>
 </div>
+<script src="<?php echo base_url('assets/js/delete-buttons.js'); ?>"></script>
