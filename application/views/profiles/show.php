@@ -26,9 +26,11 @@
             <p class="card-text">Domicilio: <?php echo ($address && $zone) ? "$address->street $address->number, $zone->name" : null; ?></p>
         </div>
     </div>
-    <div class="text-center">
-        <a href="<?php echo base_url('profiles/edit/') . $profile->id; ?>" class="btn btn-primary">Editar perfil</a>
-    </div>
+    <?php if($this->session->userdata('profile_id') == $profile->id): ?>
+        <div class="text-center">
+            <a href="<?php echo base_url('profiles/edit/') . $profile->id; ?>" class="btn btn-primary">Editar perfil</a>
+        </div>
+    <?php endif; ?>
 </div>
 <script src="<?php echo base_url('assets/js/handle-profile-image.js'); ?>"></script>
 
