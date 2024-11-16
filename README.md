@@ -61,11 +61,11 @@ Este proyecto es desarrollado de manera grupal por los siguientes estudiantes:
 ## 📅 Cronograma
 **Fase 1**: Planificación y diseño (✔️ Completado).
  <br>
-**Fase 2**: Desarrollo de funcionalidades principales (En curso).
+**Fase 2**: Desarrollo de funcionalidades principales (✔️ Completado).
  <br>
-**Fase 3**: Pruebas y depuración (Próximamente).
+**Fase 3**: Pruebas y depuración (✔️ Completado).
  <br>
-**Fase 4**: Entrega final y presentación (Próximamente).
+**Fase 4**: Entrega final y presentación (✔️ Completado).
 ---
 ##  Notas adicionales
 Este proyecto es parte del trabajo final para la asignatura "Seminario de lenguajes" orientado en PHP en la [Universidad Nacional de Lanús].
