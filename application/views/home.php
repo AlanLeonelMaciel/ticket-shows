@@ -1,3 +1,7 @@
+<div class="d-flex flex-column align-items-center pb-5">
+    <h1>¡Bienvenido a Ticket Shows!</h1>
+    <h4 class="text-center custom-mw-500px mt-3">Compra entradas para tus shows y eventos favoritos. Desde conciertos hasta obras de teatro, ¡tenemos algo para todos!</h4>
+</div>
 <div class="carousel slide text-truncate d-lg-flex align-items-lg-center" data-bs-ride="carousel" id="carousel-1" style="height: 408px;">
     <div class="carousel-inner">
         <!-- //solo se muestran los dos primeros eventos -->

@@ -12,6 +12,10 @@ class Auth extends CI_Controller {
 
     public function register_form()
     {
+		if ($this->session->userdata('logged_in')) {
+			show_error('Ya iniciaste sesión.');
+		}
+
         $main_data = [
             'inner_view_path' => 'auth/register_form'
         ];
@@ -21,6 +25,10 @@ class Auth extends CI_Controller {
 
     public function register()
     {
+        if ($this->session->userdata('logged_in')) {
+			show_error('Ya iniciaste sesión.');
+		}
+
         $this->form_validation->set_rules('email', 'email', 'required|max_length[50]|valid_email|is_unique[users.email]');
         $this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[20]');
         $this->form_validation->set_rules('confirm-password', 'password', 'required|min_length[6]|max_length[20]|matches[password]');
@@ -52,6 +60,10 @@ class Auth extends CI_Controller {
     // Función para cargar el formulario
     public function login_form()
     {
+		if ($this->session->userdata('logged_in')) {
+			show_error('Ya iniciaste sesión.');
+		}
+
         $main_data = [
             'inner_view_path' => 'auth/login_form'
         ];
@@ -62,6 +74,10 @@ class Auth extends CI_Controller {
     // Función para el manejo del formulario tipo post
     public function login()
     {
+		if ($this->session->userdata('logged_in')) {
+			show_error('Ya iniciaste sesión.');
+		}
+
         // Reglas de validación del formulario de login
         $this->form_validation->set_rules('email', 'email', 'required|max_length[50]|valid_email');
         $this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[20]');

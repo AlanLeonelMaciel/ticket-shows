@@ -12,6 +12,10 @@ class Profiles extends CI_Controller {
 
     public function show($id)
     {
+        if($this->session->userdata('profile_id') != $id && $this->session->userdata('role') != 'admin') {
+            show_error('No estás autorizado.');
+        }
+
         $profile = $this->profile_model->get_profile_by_id($id);
         $address = $this->address_model->get_address_by_id($profile ? $profile->address_id : null);
         $zone = $this->zone_model->get_zone_by_id($address ? $address->zone_id : null);
@@ -28,12 +32,16 @@ class Profiles extends CI_Controller {
 
     public function edit($id)
     {   
-        if($this->session->userdata('profile_id') != $id){
+        $profile = $this->profile_model->get_profile_by_id($id);
+
+        if($profile == null) {
             show_404();
         }
 
-        $profile = $this->profile_model->get_profile_by_id($id);
-        
+        if($this->session->userdata('profile_id') != $id) {
+            show_error('No estás autorizado.');
+        }
+
         $data = [
             'profile' => $profile,
             'zones' => $this->zone_model->get_all_zones(),
@@ -45,8 +53,12 @@ class Profiles extends CI_Controller {
 
     public function update($id)
     {
-        if($this->session->userdata('profile_id') != $id){
+        if($this->profile_model->get_profile_by_id($id) == null) {
             show_404();
+        }
+
+        if($this->session->userdata('profile_id') != $id){
+            show_error('No estás autorizado.');
         }
 
         $this->form_validation->set_rules('name','Name','required|min_length[2]|max_length[100]');
@@ -80,6 +92,10 @@ class Profiles extends CI_Controller {
 
     public function update_picture()
     {
+        if(!$this->session->userdata('logged_in')) {
+            show_error('No estás autorizado.');
+        }
+
         $profile_id = $this->session->userdata('profile_id');
 
         $upload_config = [

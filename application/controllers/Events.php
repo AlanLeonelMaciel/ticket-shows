@@ -39,42 +39,42 @@ class Events extends CI_Controller
 	}
 
 	public function show($id) {
-    // Obtener el evento por ID
-    $event = $this->event_model->get_event_by_id($id);
+		// Obtener el evento por ID
+		$event = $this->event_model->get_event_by_id($id);
 
-    // Verificar si el evento existe
-    if ($event == null) {
-        show_404();
-    }
+		// Verificar si el evento existe
+		if ($event == null) {
+			show_404();
+		}
 
-    // Obtener la información adicional del evento
-    $location = $this->location_model->get_location_by_id($event->location_id);
-    $address = $this->address_model->get_address_by_id($location->address_id);
-    $zone = $this->zone_model->get_zone_by_id($address->zone_id); // Obtener la zona
+		// Obtener la información adicional del evento
+		$location = $this->location_model->get_location_by_id($event->location_id);
+		$address = $this->address_model->get_address_by_id($location->address_id);
+		$zone = $this->zone_model->get_zone_by_id($address->zone_id); // Obtener la zona
 
-    // Calcular el cupo disponible
-    $tickets_sold = $this->event_model->get_count_tickets_sold($event->id);
-    $capacity = $this->event_model->get_event_capacity($event->id);
-	
-    if ($capacity === null) {
-        show_error('No se pudo obtener la capacidad del evento.');
-    }
+		// Calcular el cupo disponible
+		$tickets_sold = $this->event_model->get_count_tickets_sold($event->id);
+		$capacity = $this->event_model->get_event_capacity($event->id);
+		
+		if ($capacity === null) {
+			show_error('No se pudo obtener la capacidad del evento.');
+		}
 
-    $cupo = $capacity - $tickets_sold;
+		$cupo = $capacity - $tickets_sold;
 
-    $event->location_name = $location->name;
-    $event->street = $address->street;
-    $event->number = $address->number;
-    $event->zone_name = $zone->name; // Agregar el nombre de la zona
-    $event->cupo = $cupo; // Agregar el cupo disponible
+		$event->location_name = $location->name;
+		$event->street = $address->street;
+		$event->number = $address->number;
+		$event->zone_name = $zone->name; // Agregar el nombre de la zona
+		$event->cupo = $cupo; // Agregar el cupo disponible
 
-    $main_data = [
-        'inner_view_path' => 'events/show',
-        'event' => $event
-    ];
+		$main_data = [
+			'inner_view_path' => 'events/show',
+			'event' => $event
+		];
 
-    $this->load->view('layouts/main', $main_data);
-}
+		$this->load->view('layouts/main', $main_data);
+	}
 
 	public function create()
 	{
@@ -92,11 +92,16 @@ class Events extends CI_Controller
 
 	public function store()
 	{
+		if ($this->session->userdata('role') != 'admin') {
+			show_error('No estás autorizado.');
+		}
+
 		$this->form_validation->set_rules('location-name', 'location-name', 'required');
 		$this->form_validation->set_rules('title', 'title', 'required');
 		$this->form_validation->set_rules('description', 'description', 'required');
 		$this->form_validation->set_rules('date', 'date', 'required');
 		$this->form_validation->set_rules('time', 'time', 'required');
+		$this->form_validation->set_rules('price', 'price', 'required');
 
 		if ($this->form_validation->run() == false) {
 			$this->session->set_flashdata('errors', $this->form_validation->error_array());
@@ -121,6 +126,7 @@ class Events extends CI_Controller
 				'description' => $this->input->post('description'),
 				'date' => $this->input->post('date'),
 				'time' => $this->input->post('time'),
+				'price' => $this->input->post('price'),
 				'picture' => 'assets/img/events/' . $upload_data['file_name'],
 				'location_id' => $this->location_model->get_location_id_by_name($this->input->post('location-name'))
 			];
@@ -137,13 +143,19 @@ class Events extends CI_Controller
 
 	public function edit($id)
 	{
-		if ($this->event_model->get_event_by_id($id) == null) {
+		if ($this->session->userdata('role') != 'admin') {
+			show_error('No estás autorizado.');
+		}
+
+		$event = $this->event_model->get_event_by_id($id);
+
+		if($event == null) {
 			show_404();
 		}
 
 		$main_data = [
 			'inner_view_path' => 'events/edit',
-			'event' => $this->event_model->get_event_by_id($id),
+			'event' => $event,
 			'locations' => $this->location_model->get_all_locations()
 		];
 
@@ -152,6 +164,10 @@ class Events extends CI_Controller
 
 	public function update($id)
 	{
+		if ($this->session->userdata('role') != 'admin') {
+			show_error('No estás autorizado.');
+		}
+
 		if ($this->event_model->get_event_by_id($id) == null) {
 			show_404();
 		}
@@ -203,12 +219,17 @@ class Events extends CI_Controller
 
 	public function delete($id)
 	{
+		if ($this->session->userdata('role') != 'admin') {
+			show_error('No estás autorizado.');
+		}
+
 		if ($this->event_model->get_event_by_id($id) == null) {
 			show_404();
 		}
 
 		unlink($this->event_model->get_event_picture_by_id($id));
 		$this->event_model->delete_event_by_id($id);
+		$this->session->set_flashdata('success', 'El evento ha sido eliminado con éxito.');
 		redirect('events');
 	}
 
@@ -217,6 +238,11 @@ class Events extends CI_Controller
 		if (!$this->session->userdata('logged_in')) {
 			redirect('auth/login_form');
 		}
+
+		if ($this->session->userdata('role') == 'admin') {
+			show_error('No estás autorizado.');
+		}
+
 		$user_id = $this->session->userdata('user_id');
 		// Obtener la cantidad y el precio total del formulario
 		$quantity = $this->input->post('quantity');
@@ -264,6 +290,6 @@ class Events extends CI_Controller
 		}
 	
 		// Redirigir a una página de confirmación o de detalles de la venta
-		redirect('sales/confirmation');
+		$this->load->view('layouts/main', ['inner_view_path' => 'sales/confirmation']);
 	}
 }

@@ -73,3 +73,8 @@
 .table-custom td, .table-custom th {
     border: 1px solid #302e2e;
 }
+
+textarea {
+    height: 150px;
+    resize: none;
+}

@@ -42,7 +42,7 @@
                                     <td><?php echo $sale->id; ?></td>
                                     <td><?php echo $sale->user_email; ?></td>
                                     <td><?php echo '$' . number_format($sale->amount, 2); ?></td>
-                                    <td><?php echo date_format(new DateTime($sale->date), 'd F Y'); ?></td>
+                                    <td><?php echo date("d/m/Y", strtotime($sale->date)); ?></td>
                                     <td class="text-center">
                                         <a href="<?php echo base_url('sales/view_tickets/' . $sale->id); ?>" class="btn btn-primary btn-sm">Ver Tickets</a>
                                     </td>

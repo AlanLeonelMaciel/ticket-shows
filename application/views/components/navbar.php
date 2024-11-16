@@ -16,9 +16,6 @@
                             <a class="dropdown-item" href="<?php echo base_url('events/create'); ?>">Crear evento</a>
                         <?php endif; ?>
                         <a class="dropdown-item" href="<?php echo base_url('events'); ?>">Todos los eventos</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
                     </div>
                 </li>
                 <?php if ($this->session->userdata('role') == 'admin'): ?>

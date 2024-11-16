@@ -5,7 +5,7 @@
         <div class="rounded-circle d-flex flex-column justify-content-center align-items-center position-relative mx-auto custom-mw-150px custom-mh-150px">
             <img id="profile-image" class="img-fluid rounded-circle border border-light" src="<?php echo base_url($profile->picture ?: 'assets/img/profiles/empty.png'); ?>" >
         </div>
-        <small class="text-white mt-2 text-uppercase font-weight-bold" style="letter-spacing: 1px;"><?php echo $this->session->userdata('role') == 'admin' ? 'Admin' : 'Comprador'; ?></small>
+        <small class="text-white mt-2 text-uppercase font-weight-bold" style="letter-spacing: 1px;"><?php echo $this->session->userdata('role') == 'admin' && $this->session->userdata('profile_id') == $profile->id ? 'Admin' : 'Comprador'; ?></small>
     </div>
     <form id="upload-form" method="POST" action="<?php echo base_url('profiles/update_picture'); ?>" enctype="multipart/form-data">
         <input type="file" id="profile-image-input" name="picture">
@@ -26,9 +26,11 @@
             <p class="card-text">Domicilio: <?php echo ($address && $zone) ? "$address->street $address->number, $zone->name" : null; ?></p>
         </div>
     </div>
-    <div class="text-center">
-        <a href="<?php echo base_url('profiles/edit/') . $profile->id; ?>" class="btn btn-primary">Editar perfil</a>
-    </div>
+    <?php if($this->session->userdata('profile_id') == $profile->id): ?>
+        <div class="text-center">
+            <a href="<?php echo base_url('profiles/edit/') . $profile->id; ?>" class="btn btn-primary">Editar perfil</a>
+        </div>
+    <?php endif; ?>
 </div>
 <script src="<?php echo base_url('assets/js/handle-profile-image.js'); ?>"></script>
 
